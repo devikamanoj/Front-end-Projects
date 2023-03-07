@@ -1,39 +1,92 @@
-body {
-    font-family: Arial, Helvetica, sans-serif;
-    text-align: center;
-}
-#board {
-    width: 450px;
-    height: 450px;
-    /* background-color: gray; */
-    margin: 0 auto;
-    display: flex;
-    flex-wrap: wrap;
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
 }
 #space{
-    margin-bottom: 2%;
+    margin-top: 1%;
 }
-.tile {
-    width: 147px;
-    height: 147px;
-    
-    /* Text */
-    font-size: 150px;
+:root{
+    --winning-blocks: #d42626;
+}
+.nav{
+    color: black;
+}
+.mainI{
+    margin-top: 5%;
+}
+.btns{
+    margin-top: 5%;
+    align-items: center;
+    justify-content: center;
+}
+.btn{
+    border: 1px solid black;
+    font-family: arial;
+}
+.btn:hover {
+    cursor: pointer;
+    border: 1px solid black;
+    transform: translateY(-2px);
+    background: #bc2c2c;
+}
+body{
+    background-color: #ffffff;
+    text-align: center;
+    font-family: Apple Chancery, cursive;
+}
+h1{
+    font-size: 40px;
+    text-align: center;
+    text-transform: uppercase;
+}
+.container{
+    padding: 40px;
+    height: 100vh;
     display: flex;
-    justify-content: center; 
-    align-items: center;    
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
-
-.winner {
-    background-color: lightgray;
-    color: red;
+#board{
+    width:450px;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 40px;
+    background-color: #f2f2f2;
 }
-
-
-.horizontal-line {
-    border-bottom: 3px solid black;
+.cell{
+    height: 150px;
+    width: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: black;
+    font-size: 120px;
+    border-right: 2px solid black;
+    border-bottom: 2px solid black;
 }
-
-.vertical-line {
-    border-right: 3px solid black;
+.cell:nth-child(3n){
+    border-right: none;
+}
+.cell:nth-child(6) ~ .cell{
+    border-bottom: none;
+}
+.buttons{
+    padding: 10px 20px;
+    border-radius: 10px;
+    border-color: black;
+    font-size: 20px;
+    font-weight: 600;
+}
+#restartButton{
+    width: 100px;
+}
+#undoButton{
+    width: 100px;
+}
+button:hover {
+    cursor: pointer;
+    transform: translateY(-2px);
+    background: #bc2c2c;
 }

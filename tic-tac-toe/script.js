@@ -1,147 +1,97 @@
+let playerText = document.getElementById('player-text')
+let restartBtn = document.getElementById('restartButton')
+let boxes = Array.from(document.getElementsByClassName('cell'))
+let undoBtn = document.getElementById('undoButton')
+let winnerIndicator = getComputedStyle(document.body).getPropertyValue('--winning-blocks')
 
-var board;
-var playerO = "O";
-var playerX = "X";
-var currPlayer = playerO;
-var gameOver = false;
-
-window.onload = function() 
-{
-  startGame();
-}
-function init() 
-{
-  board = [
-    ['', '', ''],
-    ['', '', ''],
-    ['', '', '']
-  ];
+const O_TEXT = "O"
+const X_TEXT = "X"
+let currentPlayer = X_TEXT
+let gameOver=false;
+let undoOption = false;
+let spaces = Array(9).fill(null)
+let moves = [];
+const startGame = () => {
+    boxes.forEach(box => box.addEventListener('click', boxClicked))
 }
 
-function startGame() 
+function boxClicked(e) 
 {
-  board = [
-    [' ', ' ', ' '],
-    [' ', ' ', ' '],
-    [' ', ' ', ' ']
-  ]
-  for (let r = 0; r < 3; r++) 
+  const id = e.target.id
+  if(!gameOver) 
   {
-    for (let c = 0; c < 3; c++) 
+    if(!spaces[id])
     {
-      let tile = document.createElement("div");
-      tile.id = r.toString() + "-" + c.toString();
-      tile.classList.add("tile");
-      if (r == 0 || r == 1) 
+      spaces[id] = currentPlayer
+      e.target.innerText = currentPlayer
+      moves.push(id)
+      if(playerHasWon() !==false)
       {
-        tile.classList.add("horizontal-line");
+        playerText.innerHTML = `${currentPlayer} has won!`
+        playerText.style.color = winnerIndicator
+        let winning_blocks = playerHasWon()
+        gameOver=true;
+        //change the color of the block
+        boxes[winning_blocks[0]].style.backgroundColor = winnerIndicator;
+        boxes[winning_blocks[1]].style.backgroundColor = winnerIndicator;
+        boxes[winning_blocks[2]].style.backgroundColor = winnerIndicator;
+        return
       }
-      if (c == 0 || c == 1) 
+      else
       {
-        tile.classList.add("vertical-line");
-      }
-      tile.innerText = "";
-      tile.addEventListener("click", setTile);
-      document.getElementById("board").appendChild(tile);
+        currentPlayer = currentPlayer == X_TEXT ? O_TEXT : X_TEXT
+      }      
     }
   }
+
 }
-function setTile() 
-{
-  if (gameOver)
-  {
-    return;
-  }
+const winningCombos = [
+    [0,1,2],
+    [3,4,5],
+    [6,7,8],
+    [0,3,6],
+    [1,4,7],
+    [2,5,8],
+    [0,4,8],
+    [2,4,6]
+]
 
-  let coords = this.id.split("-");   
-  let r = parseInt(coords[0]);
-  let c = parseInt(coords[1]);
+function playerHasWon() {
+    for (const condition of winningCombos) {
+        let [a, b, c] = condition
 
-  if (board[r][c] != ' ') 
-  { 
-    //already taken spot
-    return;
-  }
-    
-  board[r][c] = currPlayer; //mark the board
-  this.innerText = currPlayer; //mark the board on html
-
-  //check winner
-  checkWinner();
-  
-  //change players
-  if (currPlayer == playerO) 
-  {
-    currPlayer = playerX;
-  }
-  else 
-  {
-    currPlayer = playerO;
-  }
-  
-}
-
-function checkWinner() 
-{
-  //horizontally, check 3 rows
-  for (let r = 0; r < 3; r++) 
-  {
-    if (board[r][0] == board[r][1] && board[r][1] == board[r][2] && board[r][0] != ' ') 
-    {
-      //if we found the winning row
-      //apply the winner style to that row
-      for (let i = 0; i < 3; i++) 
-      {
-        let tile = document.getElementById(r.toString() + "-" + i.toString());
-        tile.classList.add("winner");
-      }
-      document.getElementById("heads").innerHTML = "Winner is " + currPlayer + "!";
-        gameOver = true;
-        return;
-      }
-    }
-
-    //vertically, check 3 columns
-    for (let c = 0; c < 3; c++) 
-    {
-      if (board[0][c] == board[1][c] && board[1][c] ==  board[2][c] && board[0][c] != ' ') 
-      {
-        //if we found the winning col
-        //apply the winner style to that col
-        for (let i = 0; i < 3; i++) 
-        {
-          let tile = document.getElementById(i.toString() + "-" + c.toString());                
-          tile.classList.add("winner");
+        if(spaces[a] && (spaces[a] == spaces[b] && spaces[a] == spaces[c])) {
+            return [a,b,c]
         }
-          gameOver = true;
-          return;
-      }
     }
-
-    //diagonally
-    if (board[0][0] == board[1][1] && board[1][1] == board[2][2] && board[0][0] != ' ') {
-        for (let i = 0; i < 3; i++) {
-            let tile = document.getElementById(i.toString() + "-" + i.toString());                
-            tile.classList.add("winner");
-        }
-        gameOver = true;
-        return;
-    }
-
-    //anti-diagonally
-    if (board[0][2] == board[1][1] && board[1][1] == board[2][0] && board[0][2] != ' ') {
-        //0-2
-        let tile = document.getElementById("0-2");                
-        tile.classList.add("winner");
-
-        //1-1
-        tile = document.getElementById("1-1");                
-        tile.classList.add("winner");
-
-        //2-0
-        tile = document.getElementById("2-0");                
-        tile.classList.add("winner");
-        gameOver = true;
-        return;
-    }
+    return false
 }
+
+restartBtn.addEventListener('click', restart)
+
+function restart() {
+    spaces.fill(null)
+
+    boxes.forEach( box => {
+        box.innerText = ''
+        box.style.backgroundColor=''
+    })
+
+    playerText.innerHTML = 'Tic-Tac-Toe'
+    playerText.style.color = 'black'
+    currentPlayer = X_TEXT
+    gameOver=false;
+}
+//unfo function
+undoBtn.addEventListener('click', undo)
+function undo() {
+  if(!undoOption && !gameOver)
+  {
+    spaces[moves[moves.length-1]] = null
+    boxes[moves[moves.length-1]].innerText = ''
+    currentPlayer = currentPlayer == X_TEXT ? O_TEXT : X_TEXT
+    undoBtn.style.backgroundColor = winnerIndicator;
+    undoOption=true;
+  }
+}
+startGame()
