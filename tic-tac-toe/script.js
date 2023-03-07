@@ -9,6 +9,7 @@ const X_TEXT = "X"
 let currentPlayer = X_TEXT
 let gameOver=false;
 let undoOption = false;
+let ifTie=false;
 let spaces = Array(9).fill(null)
 let moves = [];
 const startGame = () => {
@@ -37,6 +38,10 @@ function boxClicked(e)
         boxes[winning_blocks[2]].style.backgroundColor = winnerIndicator;
         return
       }
+      else if(checkTie())
+      {
+        return
+      }
       else
       {
         currentPlayer = currentPlayer == X_TEXT ? O_TEXT : X_TEXT
@@ -44,6 +49,18 @@ function boxClicked(e)
     }
   }
 
+}
+// check if tie
+function checkTie() 
+{
+  if(!spaces.includes(null)) 
+  {
+    playerText.innerHTML = `It's a Draw!`
+    playerText.style.color = winnerIndicator
+    gameOver=true;
+    undoOption=true;
+    return true;
+  }
 }
 const winningCombos = [
     [0,1,2],

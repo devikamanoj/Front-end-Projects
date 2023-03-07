@@ -6,6 +6,12 @@
 #space{
     margin-top: 1%;
 }
+.heads{
+    margin-top: 3%;
+    font-size: 50px;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    
+}
 :root{
     --winning-blocks: #d42626;
 }
@@ -13,7 +19,7 @@
     color: black;
 }
 .mainI{
-    margin-top: 5%;
+    margin-top: 3%;
 }
 .btns{
     margin-top: 5%;
@@ -53,7 +59,7 @@ h1{
     display: flex;
     flex-wrap: wrap;
     margin-top: 40px;
-    background-color: #f2f2f2;
+    background-color: #ffffff;
 }
 .cell{
     height: 150px;
