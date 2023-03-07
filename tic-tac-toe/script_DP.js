@@ -8,7 +8,6 @@ const O_TEXT = "O"
 const X_TEXT = "X"
 let currentPlayer = X_TEXT
 let gameOver=false;
-let undoOption = false;
 let ifTie=false;
 let spaces = Array(9).fill(null)
 let moves = [];
@@ -48,7 +47,6 @@ function boxClicked(e)
       }      
     }
   }
-
 }
 // check if tie
 function checkTie() 
@@ -58,7 +56,6 @@ function checkTie()
     playerText.innerHTML = `It's a Draw!`
     playerText.style.color = winnerIndicator
     gameOver=true;
-    undoOption=true;
     return true;
   }
 }
@@ -102,13 +99,12 @@ function restart() {
 //unfo function
 undoBtn.addEventListener('click', undo)
 function undo() {
-  if(!undoOption && !gameOver)
+  if(!gameOver && ifTie==false)
   {
     spaces[moves[moves.length-1]] = null
     boxes[moves[moves.length-1]].innerText = ''
     currentPlayer = currentPlayer == X_TEXT ? O_TEXT : X_TEXT
     undoBtn.style.backgroundColor = winnerIndicator;
-    undoOption=true;
   }
 }
 startGame()
