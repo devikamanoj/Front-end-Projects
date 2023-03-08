@@ -9,8 +9,7 @@
 .heads{
     margin-top: 3%;
     font-size: 50px;
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; 
 }
 :root{
     --winning-blocks: #29d520;
