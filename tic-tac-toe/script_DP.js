@@ -54,7 +54,7 @@ function checkTie()
   if(!spaces.includes(null)) 
   {
     playerText.innerHTML = `It's a Draw!`
-    playerText.style.color = winnerIndicator
+    playerText.style.color = 'red'
     gameOver=true;
     return true;
   }
