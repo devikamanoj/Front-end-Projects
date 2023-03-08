@@ -1,6 +1,6 @@
 var height = 6; //number of guesses
 var width = 5; //length of the word
-
+let restartBtn = document.getElementById('restart')
 var row = 0; //current guess (attempt #)
 var col = 0; //current letter for that attempt
 
@@ -10,30 +10,35 @@ var gameOver = false;
 var word = "";
 fetch('words.txt')
   .then(response => response.text())
-  .then(text => {
-    const lines = text.split('\n');
-    let words = []
-    for (let i = 0; i < lines.length; i++) 
+  .then(text => 
     {
-        words = lines[i].split(' ');
-       // console.log(words);
-    }
-    const randomIndex = Math.floor(Math.random() * words.length);
-    word = words[randomIndex]
-    console.log(word);
-    word=word.toUpperCase();
-  });
+        const lines = text.split('\n');
+        let words = []
+        for (let i = 0; i < lines.length; i++) 
+        {
+            words = lines[i].split(' ');
+        // console.log(words);
+        }
+        const randomIndex = Math.floor(Math.random() * words.length);
+        word = words[randomIndex]
+        console.log(word);
+        word=word.toUpperCase();
+    });
 
 console.log(word);
-window.onload = function(){
+
+window.onload = function()
+{
     startGame();
 }
 
 function startGame()
 {
     // Create the game board
-    for (let r = 0; r < height; r++) {
-        for (let c = 0; c < width; c++) {
+    for (let r = 0; r < height; r++) 
+    {
+        for (let c = 0; c < width; c++) 
+        {
             // <span id="0-0" class="tile">P</span>
             let tile = document.createElement("div");
             tile.id = r.toString() + "-" + c.toString();
@@ -105,6 +110,19 @@ function startGame()
             answer.style.color = "red";
         }
     })
+}
+restartBtn.addEventListener('click', restart)
+//restart button
+function restart()
+{
+   //set a fresh game
+   if(gameOver)
+   {
+        document.getElementById("game").innerHTML = "";
+        document.getElementById("alerts").innerHTML = "";
+        document.getElementById("answer").innerHTML = "";
+        startGame();
+   }
 }
 function update() 
 {
