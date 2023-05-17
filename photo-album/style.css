@@ -19,6 +19,9 @@ body{
 .space{
 	padding: 20px;
 }
+img{
+	margin-left: 1%;
+}
 .gallery{
 	padding: 20px 0px;
 }
@@ -34,16 +37,6 @@ img{
 }
 #gallery-popup .modal-img{
 	width: 50%;
-}
-
-/* add slider to the right side of the image */
-#gallery-popup .modal-img .slider{
-	position: absolute;
-	top: 0px;
-	right: 0px;
-	width: 50px;
-	height: 100%;
-	background: rgba(225, 20, 20, 0.5);
 }
 .container{
 	background: #fff;
